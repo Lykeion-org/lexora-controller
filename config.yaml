@@ -1,0 +1,12 @@
+# service options
+logging_level: "DEBUG"
+
+# grpc microservice targets
+controller_service_port: ":45003"
+dictionary_service_target: "localhost:46001"
+
+# message queue options
+message_queue_instance_target: "amqp://guest:guest@localhost:30000/"
+text_analyzer_job_queue_name: "analyzer-job-queue"
+text_analyzer_feedback_queue_name: "analyzer-feedback-queue"
+service_feedback_queue_name: "lexora-notifier"

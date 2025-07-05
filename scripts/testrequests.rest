@@ -1,0 +1,106 @@
+POST http://localhost:8080/api/v1/referent HTTP/1.1
+content-type: application/json
+
+{
+    "enReference":"test from api",
+    "imageSource":"image test" 
+}
+
+###
+
+GET http://localhost:50800/api/v1/referent/4bb329fc-e909-4883-a791-5bb522861838 HTTP/1.1
+
+###
+
+GET http://localhost:8080/api/v1/ai/referent/coffee HTTP/1.1
+
+###
+
+GET http://localhost:8080/api/v1/referent/search?query=test HTTP/1.1
+
+###
+
+POST http://localhost:8080/api/v1/symbol HTTP/1.1
+content-type: application/json
+
+{
+    "language": 2,
+    "symbolType": 1
+}
+
+###
+
+GET http://localhost:8080/api/v1/symbol/83c9aec2-4940-4a5f-8afb-7744a399f654 HTTP/1.1
+
+###
+
+PUT http://localhost:8080/api/v1/referent HTTP/1.1
+content-type: application/json
+
+{
+    "uid":"4bb329fc-e909-4883-a791-5bb522861838",
+    "enReference":"coffee-1",
+    "imageSource":"/coffee-image"
+}
+
+###
+
+POST http://localhost:8080/api/v1/link-referent-symbol HTTP/1.1
+content-type: application/json
+
+{
+    "referentUid": "4bb329fc-e909-4883-a791-5bb522861838",
+    "symbolUid": "83c9aec2-4940-4a5f-8afb-7744a399f654"
+}
+
+###
+
+POST http://localhost:8080/api/v1/link-referent-symbol HTTP/1.1
+content-type: application/json
+
+{
+    "referentUid": "4bb329fc-e909-4883-a791-5bb522861838",
+    "symbolUid": "80324ec0-18da-44f6-b692-49b3dedf6410"
+}
+
+###
+
+POST http://localhost:8080/api/v1/language/word HTTP/1.1
+content-type: application/json
+
+{
+    "word": "coffee",
+	"soundSource": "test/coffee-en.mp3",
+	"ipa": "coffee-ipa",
+	"wordType": 1
+}
+
+###
+
+GET http://localhost:8080/api/v1/language/word/e7b9bdb4-10c6-4c9b-9221-f011481ecf34 HTTP/1.1
+content-type: application/json
+
+
+###
+
+POST http://localhost:8080/api/v1/link-symbol-word HTTP/1.1
+content-type: application/json
+
+{
+    "wordUid": ["720b9ec9-fa3e-48ce-8215-e698fc8d57c9"],
+    "symbolUid": "83c9aec2-4940-4a5f-8afb-7744a399f654"
+}
+
+###
+GET http://localhost:8080/api/v1/word/b98cf911-e919-4bfc-b020-27c8e0a3aee4 HTTP/1.1
+###
+
+PUT http://localhost:8080/api/v1/word/  HTTP/1.1
+content-type: application/json
+
+{
+    "uid": "b98cf911-e919-4bfc-b020-27c8e0a3aee4",
+    "word": "boek",
+    "ipa": "",
+    "soundSource": ""
+}
