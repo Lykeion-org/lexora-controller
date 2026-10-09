@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 
 	"github.com/Lykeion-org/go-shared/pkg/grpc/generated/lexora"
+	"github.com/Lykeion-org/go-shared/pkg/grpc/generated/shared"
 	"github.com/Lykeion-org/lexora-controller/internal/models"
 	"github.com/Lykeion-org/lexora-controller/internal/queues"
 )
@@ -29,16 +30,17 @@ func (h *TextAnalyzerFeedbackHandler) handleMessage(message []byte)  error {
 	}
 
 	//lookup referents for objects
+	//TODO: create word suggestions for objects that have no matching referent yet
 	for _, obj := range result.Analysis.Objects {
 		grpcReq := &lexora.FindReferentsRequest{
-			Query: "",
-			SearchMode: lexora.SearchMode_SEARCH_MODE_ANY,
-			Language: lexora.Language_LANGUAGE_UNSPECIFIED,
+			Query: obj.Lemma,
+			SearchMode: lexora.SearchMode_SEARCH_MODE_WORD,
+			Language: shared.Language_LANGUAGE_UNSPECIFIED,
 		}
-		referents, err := h.dictionarySvc.FindReferents(context.Background(), grpcReq); if err != nil {
+		_, err := h.dictionarySvc.FindReferents(context.Background(), grpcReq); if err != nil {
 			return err
 		}
+	}
 
-		
-	}		
+	return nil
 }
