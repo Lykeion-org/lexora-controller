@@ -10,7 +10,7 @@ import (
 )
 
 type lexoraServer struct {
-	lexora.LexoraServiceServer
+	lexora.UnimplementedLexoraServiceServer
 	server *grpc.Server
 	dictionary lexora.DictionaryServiceClient
 }
