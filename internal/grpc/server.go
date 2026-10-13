@@ -13,11 +13,15 @@ type lexoraServer struct {
 	lexora.UnimplementedLexoraServiceServer
 	server *grpc.Server
 	dictionary lexora.DictionaryServiceClient
+	jobs JobPublisher
 }
 
-func NewLexoraGrpcServer(dc lexora.DictionaryServiceClient) lyk_grpc.Server{
+// NewLexoraGrpcServer creates the server. jobs may be nil, in which case text
+// analysis requests fail with Unavailable.
+func NewLexoraGrpcServer(dc lexora.DictionaryServiceClient, jobs JobPublisher) lyk_grpc.Server{
 	return &lexoraServer{
 		dictionary: dc,
+		jobs: jobs,
 	}
 }
 

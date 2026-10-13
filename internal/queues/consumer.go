@@ -29,11 +29,13 @@ func NewConsumer(ch *amqp.Channel, queueName string) (*Consumer, error) {
 	}, nil
 }
 
-func (c *Consumer) Consume(handler func(msg []byte)) error {
+// Consume acks each message after handler returns nil. A message the handler
+// fails on is dropped (not requeued) so a bad message cannot loop forever.
+func (c *Consumer) Consume(handler func(msg []byte) error) error {
 	msgs, err := c.channel.Consume(
 		c.queue.Name, // queue
 		"",           // consumer
-		true,         // auto-ack
+		false,        // auto-ack
 		false,        // exclusive
 		false,        // no-local
 		false,        // no-wait
@@ -45,7 +47,12 @@ func (c *Consumer) Consume(handler func(msg []byte)) error {
 
 	go func() {
 		for d := range msgs {
-			handler(d.Body)
+			if err := handler(d.Body); err != nil {
+				log.Printf("Failed to handle message on %s: %v", c.queue.Name, err)
+				d.Nack(false, false)
+				continue
+			}
+			d.Ack(false)
 		}
 	}()
 
