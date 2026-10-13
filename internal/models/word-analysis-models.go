@@ -3,6 +3,7 @@ package models
 type AnalyzeTextRequestInternal struct {
 	JobId string `json:"job_id"`
 	RequesterId string `json:"requester_id"`
+	Language string `json:"language"`
 	Text string `json:"text"`
 }
 
@@ -22,6 +23,7 @@ type TextAnalysis struct {
 type WordAnalysis struct {
 	Text string `json:"text"`
 	Lemma string `json:"lemma"`
+	Pos string `json:"pos"`
 	Attributes WordAnalysisAttributes `json:"attributes"`
 }
 
